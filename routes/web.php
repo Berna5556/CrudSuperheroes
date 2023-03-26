@@ -15,7 +15,15 @@ use App\Http\Controllers\SuperheroeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::resource('superheroe',SuperheroeController::class);
+Auth::routes();
+
+Route::get('/home', [SuperheroeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function() {
+
+    Route::get('/', [SuperheroeController::class, 'index'])->name('home');
+});
